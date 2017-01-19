@@ -10,4 +10,7 @@ function draw() {
     context.fillStyle = "#000";
     context.fillRect(0, 0, 480, 320);
 }
+
+console.log('I am master!');
+
 init();
