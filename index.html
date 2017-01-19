@@ -6,14 +6,25 @@
 	</head>
     <body>
             <canvas id='example'>Обновите браузер</canvas>
-            <script>
-     var example = document.getElementById("example"),
-       ctx       = example.getContext('2d'), // Контекст
-       pic       = new Image();              // "Создаём" изображение
-     pic.src    = 'http://habrahabr.ru/i/nocopypast.png';  // Источник изображения, позаимствовано на хабре
-     pic.onload = function() {    // Событие onLoad, ждём момента пока загрузится изображение
-       ctx.drawImage(pic, 0, 0);  // Рисуем изображение от точки с координатами 0, 0
-     }
+
+	<script>
+	     var example = document.getElementById("example"),
+	         ctx = example.getContext('2d');
+	 			example.height = 600;
+	 			example.width  = 300;
+
+	    			ctx.strokeRect(18, 18, 260, 260);
+	    			ctx.fillStyle = '#AF5200';
+	    			ctx.fillRect(20, 20, 256, 256);
+
+
+
+	       pic       = new Image();              // "Создаём" изображение
+	     pic.src    = 'http://habrahabr.ru/i/nocopypast.png';  // Источник изображения, позаимствовано на хабре
+	     pic.onload = function() {    // Событие onLoad, ждём момента пока загрузится изображение
+	       ctx.drawImage(pic, 0, 0, 135,135, 20, 20 , 100, 100);  // Рисуем изображение от точки с координатами 0, 0
+	       ctx.drawImage(pic, 0, 135, 300, 300);
+	     }
    </script>
         </body>
 </html>
