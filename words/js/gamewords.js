@@ -5,6 +5,8 @@
     window.requestAnimationFrame = requestAnimationFrame;
 
 
+
+
     var gamewidth = document.documentElement.clientWidth;
     var gameheight = gamewidth / 1.7777;
     var Wstepsize = gamewidth / 10;
@@ -12,6 +14,8 @@
     console.log(gameheight);
     var canvas = document.getElementById('gamewords');
     var ctx = canvas.getContext("2d");
+    var canvasCoord = canvas.getBoundingClientRect();
+    var mouse;
 
     var myRect = {
         x: 50,
@@ -23,29 +27,45 @@
         color: "#c23a3a",
         go: function() {
             ctx.fillStyle = this.color;
-            ctx.fillRect(this.x, this.y, this.width, this.height)
+            ctx.fillRect(this.x, this.y, this.width, this.height);
+
+
+        },
+        clickevent: function() {
+            var myself = this;
+
+            canvas.addEventListener('click', function(e) {
+                e.preventDefault();
+                mouse = {
+                    x: e.pageX - canvasCoord.left,
+                    y: e.pageY - canvasCoord.top
+                }
+                if (myself.x < mouse.x && myself.x + myself.width > mouse.x && myself.y < mouse.y && myself.y + myself.height > mouse.y) {
+                    myself.speedx = -1 * myself.speedx;
+                    myself.speedy = -1 * myself.speedy
+                }
+            })
         }
     }
+
+
 
 
     draw();
 
     var update = function(timestep) {
-        myRect.x = myRect.x + (myRect.speedx * timestep * 500);
-        myRect.y = myRect.y + (myRect.speedy * timestep * 500 / 2);
+        myRect.x = myRect.x + (myRect.speedx * timestep * 100);
+        myRect.y = myRect.y + (myRect.speedy * timestep * 100 / 2);
 
-        // console.log(myRect.x);
-        // console.log(myRect.y);
         if (myRect.x + myRect.width >= gamewidth) {
             myRect.speedx = -1
-        }
-         else if (myRect.x < 0) {
+        } else if (myRect.x < 0) {
             myRect.speedx = 1
         }
-        if (myRect.y + myRect.height >= gameheight){
+        if (myRect.y + myRect.height >= gameheight) {
             myRect.speedy = -1;
-        } else if(myRect.y < 0){
-          myRect.speedy = 1;
+        } else if (myRect.y < 0) {
+            myRect.speedy = 1;
         }
 
     }
@@ -70,6 +90,11 @@
 
     var lasttime = Date.now();
     // console.log(lasttime)
+    function init() {
+        myRect.clickevent();
+    }
+    init();
+
     function start() {
         gamewidth = document.documentElement.clientWidth;
         gameheight = gamewidth / 1.7777;
@@ -79,12 +104,16 @@
 
         var dr = (now1 - lasttime) / 1000;
         // console.log(dr);
-
-        draw();
         update(dr);
+        draw();
+
         myRect.go();
         lasttime = now1;
         window.requestAnimationFrame(start);
     }
     start();
+
+
+
+
 }())
