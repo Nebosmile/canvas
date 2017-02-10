@@ -52,8 +52,10 @@ var someRect;
     var canvasCoord = canvas.getBoundingClientRect();
     var mouse;
 
+    var rectArr =[];
+
     // вторая версия
-    function Makerect(corX, corY, elemWidth, elemHeight, elemColor, speedx, speedy,time) {
+    function Makerect(corX, corY, elemWidth, elemHeight, elemColor, speedx, speedy, time) {
         this.now1 = Date.now();
         this.x = corX;
         this.y = corY;
@@ -63,35 +65,68 @@ var someRect;
         this.sx = speedx;
         this.sy = speedy;
         this.lasttime = time;
+        var myself = this;
+
+        canvas.addEventListener('click', function(e) {
+            e.preventDefault();
+            mouse = {
+                x: e.pageX - canvasCoord.left,
+                y: e.pageY - canvasCoord.top
+            }
+            if (myself.x < mouse.x && myself.x + myself.width > mouse.x && myself.y < mouse.y && myself.y + myself.height > mouse.y) {
+                myself.sx = -1 * myself.sx;
+                myself.sy = -1 * myself.sy;
+
+                var second = new Makerect(myself.x, myself.y,myself.width/2 , myself.height/2, "green", myself.sx*-1.2, myself.sy*-1.2, Date.now());
+                rectArr.push(second);
+                console.log(rectArr);
+                second.draw();
+            }
+        })
+
     }
 
     Makerect.prototype.draw = function() {
 
         var now1 = Date.now();
         var dr = (now1 - this.lasttime) / 1000;
-        // console.log(dr);
-
-
-        this.x = this.x + this.sx * dr *400;
-        this.y = this.y + this.sy * dr * 200;
+        this.x = this.x + this.sx * dr * 100;
+        this.y = this.y + this.sy * dr * 50;
         ctx.fillStyle = this.color;
         ctx.fillRect(this.x, this.y, this.width, this.height);
         this.lasttime = now1;
+        if (this.x + this.width >= gamewidth) {
+            this.sx = -1*this.sx;
+        } else if (this.x < 0) {
+            this.sx = -1*this.sx;
+        }
+        if (this.y + this.height >= gameheight) {
+            this.sy = -1*this.sy;
+        } else if (this.y < 0) {
+            this.sy = -1*this.sy;
+        }
+
+
 
     };
 
     function init() {
-        firscub = new Makerect(20, 0, 100, 100, "#000", 1, 1,Date.now());
-        console.log(firscub)
+        firscub = new Makerect(20, 0, 100, 100, "#000", 1, 1, Date.now());
+        rectArr.push(firscub);
+        console.log(rectArr)
         someRect = new Square(50, '#fff');
         draw()
-      }
+    }
 
     function draw() {
         ctx.fillStyle = "#fff";
         ctx.fillRect(0, 0, gamewidth, gameheight);
         ctx.fillStyle = "rgb(142, 27, 114)";
-        firscub.draw();
+        for( var i = 0; i < rectArr.length; i++){
+          rectArr[rectArr[i].draw()]
+        }
+        // firscub.draw();
+
         window.requestAnimationFrame(draw);
     }
     init();
