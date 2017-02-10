@@ -1,4 +1,37 @@
+var someRect;
 (function() {
+
+    class Rectangle {
+        constructor(w, h, color) {
+            this.width = w;
+            this.height = h;
+            this.color = color;
+        }
+        add() {
+            return this.width + this.height;
+        }
+        setWidth(newWidth) {
+            this.width = newWidth;
+        }
+    }
+
+    class Square extends Rectangle {
+        constructor(w, color) {
+            super(w, w, color);
+        }
+        add() {
+            console.log('I am a square!');
+            return 2 * this.width;
+        }
+        getSquare() {
+            return this.width * this.width;
+        }
+        setWidth(newWidth) {
+            super.setWidth(newWidth);
+            this.height = newWidth;
+        }
+    }
+
 
     var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
         window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
@@ -20,7 +53,7 @@
     var mouse;
 
     // вторая версия
-    function makerect(corX, corY, elemWidth, elemHeight, elemColor, speedx, speedy,time) {
+    function Makerect(corX, corY, elemWidth, elemHeight, elemColor, speedx, speedy,time) {
         this.now1 = Date.now();
         this.x = corX;
         this.y = corY;
@@ -30,26 +63,27 @@
         this.sx = speedx;
         this.sy = speedy;
         this.lasttime = time;
-        this.draw = function() {
-
-            var now1 = Date.now();
-            var dr = (now1 - this.lasttime) / 1000;
-            console.log(dr);
-
-
-            this.x = this.x + this.sx * dr *400;
-            this.y = this.y + this.sy * dr * 200;
-            ctx.fillStyle = this.color;
-            ctx.fillRect(this.x, this.y, this.width, this.height);
-            this.lasttime = now1;
-
-        }
-
     }
 
+    Makerect.prototype.draw = function() {
+
+        var now1 = Date.now();
+        var dr = (now1 - this.lasttime) / 1000;
+        // console.log(dr);
+
+
+        this.x = this.x + this.sx * dr *400;
+        this.y = this.y + this.sy * dr * 200;
+        ctx.fillStyle = this.color;
+        ctx.fillRect(this.x, this.y, this.width, this.height);
+        this.lasttime = now1;
+
+    };
+
     function init() {
-        firscub = new makerect(20, 0, 100, 100, "#000", 1, 1,Date.now());
+        firscub = new Makerect(20, 0, 100, 100, "#000", 1, 1,Date.now());
         console.log(firscub)
+        someRect = new Square(50, '#fff');
         draw()
       }
 
