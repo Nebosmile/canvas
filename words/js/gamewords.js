@@ -58,28 +58,55 @@ var someRect;
     //// третья версия
 
     class Firstrect {
-        constructor(corX, corY, speedx, speedy) {
-            this.now = date.now();
+        constructor(corX, corY, sizeValue, speedValue, time) {
+            this.now = Date.now();
             this.x = corX;
             this.y = corY;
-            this.mysizevalue = 1;
-            this.width = this.mysizevalue * FirstrectWidth;
+            this.mysizevalue = sizeValue;
+            this.speedvalue = speedValue;
+            this.sx = this.speedvalue;
+            this.sy = this.sx;
+            this.width = Math.ceil(this.mysizevalue * FirstrectWidth);
             this.height = this.width;
-            this.color = "#000";
-            this.sx = speedx;
-            this.sy = speedy;
+            this.lasttime = time;
 
-            if (mysizevalue == 0.8) {
+            var myself = this;
+            if(sizeValue == 1){
+                this.color = "#000";
+            }
+            else if (sizeValue == 0.8) {
                 this.color = "#1a3725"
-            } else if (mysizevalue == 0.6) {
+            } else if (sizeValue == 0.6) {
                 this.color = "#2a8736"
-            } else if (mysizevalue == 0.4) {
+            } else if (sizeValue == 0.4) {
                 this.color = "#8e981c"
-            } else if (mysizevalue == 0.2) {
+            } else if (sizeValue == 0.2) {
                 this.color = "#b3cc1a";
             }
+            this.width = Math.ceil(sizeValue * FirstrectWidth);
+            this.height = this.width;
+
+
+            canvas.addEventListener('click', function(e) {
+                e.preventDefault();
+                mouse = {
+                    x: e.pageX - canvasCoord.left,
+                    y: e.pageY - canvasCoord.top
+                }
+                if (myself.x < mouse.x && myself.x + myself.width > mouse.x && myself.y < mouse.y && myself.y + myself.height > mouse.y) {
+                    myself.sx = -1 * myself.sx;
+                    myself.sy = -1 * myself.sy;
+
+                    var second = new Firstrect(myself.x, myself.y, (myself.mysizevalue - 0.2).toFixed(1), myself.speedvalue + 0.2, Date.now());
+                    second.mysizevalue = myself.mysizevalue - 0.2;
+                    rectArr.push(second);
+                    console.log(rectArr);
+                    second.draw();
+                }
+            })
 
         }
+
         draw() {
             var now1 = Date.now();
             var dr = (now1 - this.lasttime) / 1000;
@@ -104,9 +131,25 @@ var someRect;
 
     function init() {
 
-        var blackrect = new Firstrect
+        var blackrect = new Firstrect(25, 25, 1, 1, Date.now());
+        rectArr.push(blackrect);
+        console.log(rectArr);
+        draw();
 
     }
+
+    function draw() {
+        ctx.fillStyle = "#fff";
+        ctx.fillRect(0, 0, gamewidth, gameheight);
+        ctx.fillStyle = "rgb(142, 27, 114)";
+        for (var i = 0; i < rectArr.length; i++) {
+            rectArr[rectArr[i].draw()]
+        }
+        // firscub.draw();
+
+        window.requestAnimationFrame(draw);
+    }
+    init();
 
     ///////////////////конец третей версии
 
