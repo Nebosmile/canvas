@@ -69,6 +69,7 @@ var someRect;
             this.width = Math.ceil(this.mysizevalue * FirstrectWidth);
             this.height = this.width;
             this.lasttime = time;
+            this.free = true;
 
             var myself = this;
             if(sizeValue == 1){
@@ -97,7 +98,7 @@ var someRect;
                     myself.sx = -1 * myself.sx;
                     myself.sy = -1 * myself.sy;
 
-                    var second = new Firstrect(myself.x, myself.y, (myself.mysizevalue - 0.2).toFixed(1), myself.speedvalue + 0.2, Date.now());
+                    var second = new Firstrect(myself.x +myself.width+1, myself.y, (myself.mysizevalue - 0.2).toFixed(2), myself.speedvalue + 0.2, Date.now());
                     second.mysizevalue = myself.mysizevalue - 0.2;
                     rectArr.push(second);
                     console.log(rectArr);
@@ -116,14 +117,18 @@ var someRect;
             ctx.fillRect(this.x, this.y, this.width, this.height);
             this.lasttime = now1;
             if (this.x + this.width >= gamewidth) {
-                this.sx = -1 * this.sx;
+                this.sx =-Math.sqrt(Math.pow(this.sx,2))
+                // this.sx = -1 * this.sx;
             } else if (this.x < 0) {
-                this.sx = -1 * this.sx;
+                this.sx =Math.sqrt(Math.pow(this.sx,2))
+                // this.sx = -1 * this.sx;
             }
             if (this.y + this.height >= gameheight) {
-                this.sy = -1 * this.sy;
+                this.sy =-Math.sqrt(Math.pow(this.sy,2))
+                // this.sy = -1 * this.sy;
             } else if (this.y < 0) {
-                this.sy = -1 * this.sy;
+                this.sy =Math.sqrt(Math.pow(this.sy,2))
+                // this.sy = -1 * this.sy;
             }
         }
 
@@ -143,7 +148,32 @@ var someRect;
         ctx.fillRect(0, 0, gamewidth, gameheight);
         ctx.fillStyle = "rgb(142, 27, 114)";
         for (var i = 0; i < rectArr.length; i++) {
-            rectArr[rectArr[i].draw()]
+
+            (function () {
+                var a = i;
+                for (var j = 0; j < rectArr.length; j++){
+
+
+                        if( rectArr[a].x + rectArr[a].width > rectArr[j].x && rectArr[a].x < rectArr[j].x && rectArr[j].y < rectArr[a].y + rectArr[a].height && rectArr[j].y > rectArr[a].y){
+                            if(rectArr[a].free == true){
+                                rectArr[a].sx = -1*rectArr[a].sx;
+                                rectArr[j].sx = -1*rectArr[j].sx;
+                                rectArr[a].sy = -1*rectArr[a].sy;
+                                rectArr[j].sy = -1*rectArr[j].sy;
+                                rectArr[a].free = false;
+                                rectArr[j].free = false;
+                            }
+
+                        } else{
+                            rectArr[a].free = true;
+                            rectArr[j].free = true;
+                        }
+
+                }
+            }())
+
+
+        rectArr[i].draw();
         }
         // firscub.draw();
 
