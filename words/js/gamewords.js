@@ -154,7 +154,10 @@ var someRect;
                 for (var j = 0; j < rectArr.length; j++){
 
 
-                        if( rectArr[a].x + rectArr[a].width > rectArr[j].x && rectArr[a].x < rectArr[j].x && rectArr[j].y < rectArr[a].y + rectArr[a].height && rectArr[j].y > rectArr[a].y){
+                        if( (rectArr[a].x + rectArr[a].width > rectArr[j].x && rectArr[a].x < rectArr[j].x) || ( rectArr[a].x < rectArr[j].x + rectArr[j].width && rectArr[j].x < rectArr[a].x ) ){
+
+
+                         if((rectArr[j].y < rectArr[a].y + rectArr[a].height && rectArr[j].y > rectArr[a].y) || (rectArr[j].y < rectArr[a].y && rectArr[j].y + rectArr[j].height > rectArr[a].y)){
                             if(rectArr[a].free == true){
                                 rectArr[a].sx = -1*rectArr[a].sx;
                                 rectArr[j].sx = -1*rectArr[j].sx;
@@ -163,11 +166,15 @@ var someRect;
                                 rectArr[a].free = false;
                                 rectArr[j].free = false;
                             }
-
-                        } else{
-                            rectArr[a].free = true;
-                            rectArr[j].free = true;
                         }
+                        else{
+                           rectArr[a].free = true;
+                           // rectArr[j].free = true;
+                       }
+
+                    }
+
+
 
                 }
             }())
