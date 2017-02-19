@@ -12,6 +12,33 @@ var mouse;
 var Letercell = 1 / 15 * gamewidth;
 var imgsrcArr = ["img/Arena_HA_big.jpg", "img/words.png"];
 var imgarr = {};
+var words ={
+  "_garden":{"english": "garden","russian":"сад"},
+  "_tree":{"english": "tree","russian":"дерево"},
+  "_earth":{"english": "earth","russian":"земля"},
+  "_wind":{"english": "wind","russian":"ветер"},
+  "_grow":{"english": "grow","russian":"рости"},
+}
+var wordsArr=[];
+var gameword =[];
+
+for(key in words){
+  wordsArr.push(words[key]);
+}
+
+var wordsone = {
+  y : 4*Wstepsize,
+  x : Wstepsize
+}
+var answersone = {
+  y : 4.5*Wstepsize,
+  x : Wstepsize
+}
+var letersone ={
+  y : 5*Wstepsize,
+  x : Wstepsize
+}
+
 
 
 var letters = {
@@ -42,7 +69,40 @@ var letters = {
     "y": [2401, 0],
     "z": [2501, 0],
     "-": [2601, 0],
+};
+class Word{
+  constructor(obj, fromlanguage, tolanguage) {
+    this.from = obj[fromlanguage];
+    this.to = obj[tolanguage];
+  }
+
+  play(){
+    var a =wordsone.x;
+    var b =wordsone.y;
+
+    ctx.fillStyle = "#00F";
+    ctx.font = "italic 30pt Arial";
+    ctx.fillText("dgfghg", a, b);
+    for(var i = 0; i<this.to.length;i++){
+      var setword = this.to[i];
+      var cordx = letersone.x +i*letersone.x;
+      var cordy = letersone.y;
+      var gameleter = new Leter(setword,cordx,cordy)
+      gameword.push(gameleter);
+    }
+    for(var f = 0;f<gameword.length;f++)
+      gameword[f].draw()
+  }
 }
+
+class Ru_Eng extends Word {
+    constructor(obj) {
+        super(obj, 'russian','english');
+    }
+}
+
+var newWord = new Ru_Eng(wordsArr[2]);
+
 
 
 class Leter {
@@ -55,7 +115,7 @@ class Leter {
       this.height = 1.1*Letercell;
     }
     draw(){
-      console.log(this)
+
       ctx.drawImage(imgarr["img/words.png"], this.Xsprite, this.Ysprite, 100, 110, this.Xposition, this.Yposition, this.width, this.height);
     }
 }
@@ -64,14 +124,14 @@ class Leter {
 
 
 function imgOnload(arr) {
-    console.log(arr)
+
     var arrsize = arr.length;
     var i = 0;
 
     loadim();
 
     function loadim() {
-        console.log(i + " " + arrsize)
+
         if (i < arrsize) {
             var img = new Image();
             img.src = arr[i];
@@ -89,8 +149,8 @@ function imgOnload(arr) {
 }
 imgOnload(imgsrcArr);
 
-var Letters_a = new Leter("h",0,0);
-console.log(Letters_a);
+var Letters_a = new Leter("a",0,0);
+
 
 function draw() {
     var img = new Image();
@@ -98,9 +158,11 @@ function draw() {
     ctx.fillStyle = "#fff";
     ctx.fillRect(0, 0, gamewidth, gameheight);
     ctx.drawImage(img, 0, 0, 300, 100);
-    console.log(imgarr["img/Arena_HA_big.jpg"]);
+
     ctx.drawImage(imgarr["img/Arena_HA_big.jpg"], 0, 0, gamewidth, gameheight);
+    ctx.fillStyle = "#fff";
     Letters_a.draw();
+    newWord.play();
 
 }
 
