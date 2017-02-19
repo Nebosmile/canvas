@@ -159,12 +159,36 @@ var someRect;
 
                          if((rectArr[j].y < rectArr[a].y + rectArr[a].height && rectArr[j].y > rectArr[a].y) || (rectArr[j].y < rectArr[a].y && rectArr[j].y + rectArr[j].height > rectArr[a].y)){
                             if(rectArr[a].free == true){
-                                rectArr[a].sx = -1*rectArr[a].sx;
-                                rectArr[j].sx = -1*rectArr[j].sx;
-                                rectArr[a].sy = -1*rectArr[a].sy;
-                                rectArr[j].sy = -1*rectArr[j].sy;
                                 rectArr[a].free = false;
                                 rectArr[j].free = false;
+
+                                if(rectArr[a].sx>0 && rectArr[j].sx>0){
+                                    if(rectArr[a].sx > rectArr[j].sx){
+                                        rectArr[j].sx = -1*rectArr[j].sx;
+                                    }else{
+                                        rectArr[a].sx = -1*rectArr[a].sx;
+                                    }
+                                    rectArr[a].sy = -1*rectArr[a].sy;
+                                    rectArr[j].sy = -1*rectArr[j].sy;
+
+                                }else if(rectArr[a].sx<0 && rectArr[j].sx<0){
+                                    if(rectArr[a].sx > rectArr[j].sx){
+                                        rectArr[a].sx = -1*rectArr[a].sx;
+                                    }else{
+                                        rectArr[j].sx = -1*rectArr[j].sx;
+                                    }
+                                    rectArr[a].sy = -1*rectArr[a].sy;
+                                    rectArr[j].sy = -1*rectArr[j].sy;
+                                }
+
+                                else{
+                                    rectArr[a].sx = -1*rectArr[a].sx;
+                                    rectArr[j].sx = -1*rectArr[j].sx;
+                                    rectArr[a].sy = -1*rectArr[a].sy;
+                                    rectArr[j].sy = -1*rectArr[j].sy;
+
+                                }
+
                             }
                         }
                         else{
