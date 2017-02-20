@@ -36,10 +36,6 @@ var words = {
     },
 }
 
-
-
-
-
 var wordsone = {
     y: 5 * Letercell,
     x: Letercell
@@ -52,8 +48,6 @@ var letersone = {
     y: 7 * Letercell,
     x: Letercell
 }
-
-
 
 var letters = {
     "a": [1, 0],
@@ -84,6 +78,28 @@ var letters = {
     "z": [2501, 0],
     "-": [2601, 0],
 };
+
+
+
+// создаем массив из ключей.
+var wordsArr = [];/// масив для хранения ключей
+function makewordsArr(obj) {
+  for( key in obj){
+    wordsArr.push(key)
+  }
+    console.log(wordsArr);
+}
+
+function init() {
+  makewordsArr(words);
+  draw();
+}
+
+
+
+
+
+
 
 
 class Leter {
@@ -123,7 +139,7 @@ function imgOnload(arr) {
             }
         } else if (i == arrsize) {
 
-            draw();
+            init();
         }
     }
 
@@ -162,11 +178,9 @@ function compareRandom(a, b) {
 //отслеживаем клик.
 canvas.addEventListener('click', function(e) {
     e.preventDefault();
-    mouse = {
-        x: e.pageX - canvasCoord.left,
-        y: e.pageY - canvasCoord.top
-    }
-    if (myself.x < mouse.x && myself.x + myself.width > mouse.x && myself.y < mouse.y && myself.y + myself.height > mouse.y) {
+    // mouse = {
+    //     x: e.pageX - canvasCoord.left,
+    //     y: e.pageY - canvasCoord.top
+    // }
 
-    }
 })
