@@ -12,31 +12,45 @@ var mouse;
 var Letercell = 1 / 15 * gamewidth;
 var imgsrcArr = ["img/Arena_HA_big.jpg", "img/words.png"];
 var imgarr = {};
-var words ={
-  "_garden":{"english": "garden","russian":"сад"},
-  "_tree":{"english": "tree","russian":"дерево"},
-  "_earth":{"english": "earth","russian":"земля"},
-  "_wind":{"english": "wind","russian":"ветер"},
-  "_grow":{"english": "grow","russian":"рости"},
-}
-var wordsArr=[];
-var gameword =[];
 
-for(key in words){
-  wordsArr.push(words[key]);
+var words = {
+    "_garden": {
+        "english": "garden",
+        "russian": "сад"
+    },
+    "_tree": {
+        "english": "tree",
+        "russian": "дерево"
+    },
+    "_earth": {
+        "english": "earth",
+        "russian": "земля"
+    },
+    "_wind": {
+        "english": "wind",
+        "russian": "ветер"
+    },
+    "_grow": {
+        "english": "grow",
+        "russian": "рости"
+    },
 }
+
+
+
+
 
 var wordsone = {
-  y : 4*Wstepsize,
-  x : Wstepsize
+    y: 5 * Letercell,
+    x: Letercell
 }
 var answersone = {
-  y : 4.5*Wstepsize,
-  x : Wstepsize
+    y: 5.5 * Letercell,
+    x: Letercell
 }
-var letersone ={
-  y : 5*Wstepsize,
-  x : Wstepsize
+var letersone = {
+    y: 7 * Letercell,
+    x: Letercell
 }
 
 
@@ -70,53 +84,20 @@ var letters = {
     "z": [2501, 0],
     "-": [2601, 0],
 };
-class Word{
-  constructor(obj, fromlanguage, tolanguage) {
-    this.from = obj[fromlanguage];
-    this.to = obj[tolanguage];
-  }
-
-  play(){
-    var a =wordsone.x;
-    var b =wordsone.y;
-
-    ctx.fillStyle = "#00F";
-    ctx.font = "italic 30pt Arial";
-    ctx.fillText("dgfghg", a, b);
-    for(var i = 0; i<this.to.length;i++){
-      var setword = this.to[i];
-      var cordx = letersone.x +i*letersone.x;
-      var cordy = letersone.y;
-      var gameleter = new Leter(setword,cordx,cordy)
-      gameword.push(gameleter);
-    }
-    for(var f = 0;f<gameword.length;f++)
-      gameword[f].draw()
-  }
-}
-
-class Ru_Eng extends Word {
-    constructor(obj) {
-        super(obj, 'russian','english');
-    }
-}
-
-var newWord = new Ru_Eng(wordsArr[2]);
-
 
 
 class Leter {
     constructor(name, x, y) {
-      this.Xsprite =letters[name][0];
-      this.Ysprite =letters[name][1];
-      this.Xposition = x;
-      this.Yposition = y;
-      this.width = Letercell;
-      this.height = 1.1*Letercell;
+        this.Xsprite = letters[name][0];
+        this.Ysprite = letters[name][1];
+        this.Xposition = x;
+        this.Yposition = y;
+        this.width = Letercell;
+        this.height = 1.1 * Letercell;
     }
-    draw(){
+    draw() {
 
-      ctx.drawImage(imgarr["img/words.png"], this.Xsprite, this.Ysprite, 100, 110, this.Xposition, this.Yposition, this.width, this.height);
+        ctx.drawImage(imgarr["img/words.png"], this.Xsprite, this.Ysprite, 100, 110, this.Xposition, this.Yposition, this.width, this.height);
     }
 }
 
@@ -149,26 +130,36 @@ function imgOnload(arr) {
 }
 imgOnload(imgsrcArr);
 
-var Letters_a = new Leter("a",0,0);
+var Letters_a = new Leter("a", 0, 0);
 
+// function wordForTranslate() {
+//     ctx.fillStyle = "#fff";
+//     var corx = wordsone.x;
+//     var cory = wordsone.y;
+//     ctx.fillRect(0, 0, gamewidth, gameheight);
+// }
+
+// function makeGame() {
+//     ctx.fillStyle = "#00F";
+//     ctx.font = "italic 30pt Arial";
+//     ctx.fillText("dgfghg", a, b);
+// }
 
 function draw() {
-    var img = new Image();
-    img.src = "img/Arena_HA_big.jpg";
-    ctx.fillStyle = "#fff";
-    ctx.fillRect(0, 0, gamewidth, gameheight);
-    ctx.drawImage(img, 0, 0, 300, 100);
 
     ctx.drawImage(imgarr["img/Arena_HA_big.jpg"], 0, 0, gamewidth, gameheight);
     ctx.fillStyle = "#fff";
-    Letters_a.draw();
-    newWord.play();
 
 }
 
 
 
+//перемешивание массива
+function compareRandom(a, b) {
+  return Math.random() - 0.5;
+}
 
+//отслеживаем клик.
 canvas.addEventListener('click', function(e) {
     e.preventDefault();
     mouse = {
