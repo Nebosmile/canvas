@@ -9,9 +9,17 @@ canvas.width = gamewidth;
 canvas.height = gameheight;
 var canvasCoord = canvas.getBoundingClientRect();
 var mouse;
-var Letercell = 1 / 15 * gamewidth;
+var Letercell = 1 / 14 * gamewidth;
 var imgsrcArr = ["img/Arena_HA_big.jpg", "img/words.png"];
 var imgarr = {};
+canvas.addEventListener('click', function(e) {
+    e.preventDefault();
+    mouse = {
+        x: e.pageX - canvasCoord.left,
+        y: e.pageY - canvasCoord.top
+    }
+
+})
 
 var words = {
     "_garden": {
@@ -82,20 +90,63 @@ var letters = {
 
 
 // создаем массив из ключей.
-var wordsArr = [];/// масив для хранения ключей
+var wordsArr = []; /// масив для хранения ключей
 function makewordsArr(obj) {
-  for( key in obj){
-    wordsArr.push(key)
-  }
+    for (key in obj) {
+        wordsArr.push(key)
+    }
     console.log(wordsArr);
 }
 
+function play() {
+
+}
+
 function init() {
-  makewordsArr(words);
-  draw();
+    // makewordsArr(words);
+    draw();
+    playbtn.draw();
+    // requestAnimationFrame(init);
 }
 
 
+////кнопка, запускает игру- должна делать запрос.
+class Playbutton {
+    constructor(name) {
+        this.text = name;
+        this.x = 7 * Letercell - 25;
+        this.y = gameheight / 2 - 15;
+        this.status ="off";
+        var newThis =this;
+
+        canvas.addEventListener('click', function(e) {
+          e.preventDefault();
+          console.log(newThis.status);
+          console.log(mouse);
+          if(newThis.status == "on" && mouse.x >newThis.x && mouse.x<newThis.x + 50 &&  mouse.y >newThis.y && mouse.y<newThis.y + 30){
+            this.status =false;
+            draw();
+          }
+
+
+        })
+
+    }
+    draw() {
+        this.status = 'on';
+        ctx.fillStyle = "#ed3b3b";
+        ctx.fillRect(this.x, this.y, 50, 30);
+        ctx.fillStyle = "#fff";
+        ctx.font = "italic 20px Arial";
+        ctx.fillText(this.text, this.x+5, this.y+20);
+
+    }
+    remove() {
+        this.status = false;
+    }
+
+}
+var playbtn = new Playbutton("play");
 
 
 
@@ -172,15 +223,7 @@ function draw() {
 
 //перемешивание массива
 function compareRandom(a, b) {
-  return Math.random() - 0.5;
+    return Math.random() - 0.5;
 }
 
 //отслеживаем клик.
-canvas.addEventListener('click', function(e) {
-    e.preventDefault();
-    // mouse = {
-    //     x: e.pageX - canvasCoord.left,
-    //     y: e.pageY - canvasCoord.top
-    // }
-
-})
