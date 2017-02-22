@@ -103,7 +103,7 @@ function play() {
 }
 
 function init() {
-    // makewordsArr(words);
+
     draw();
     playbtn.draw();
     // requestAnimationFrame(init);
@@ -125,6 +125,7 @@ class Playbutton {
           console.log(mouse);
           if(newThis.status == "on" && mouse.x >newThis.x && mouse.x<newThis.x + 50 &&  mouse.y >newThis.y && mouse.y<newThis.y + 30){
             this.status =false;
+            makewordsArr(words);
             draw();
           }
 
