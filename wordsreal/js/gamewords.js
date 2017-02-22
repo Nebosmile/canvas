@@ -88,29 +88,7 @@ var letters = {
 };
 
 
-
-// создаем массив из ключей.
-var wordsArr = []; /// масив для хранения ключей
-function makewordsArr(obj) {
-    for (key in obj) {
-        wordsArr.push(key)
-    }
-    console.log(wordsArr);
-}
-
-function play() {
-
-}
-
-function init() {
-
-    draw();
-    playbtn.draw();
-    // requestAnimationFrame(init);
-}
-
-
-////кнопка, запускает игру- должна делать запрос.
+///////////////////////////////////классы
 class Playbutton {
     constructor(name) {
         this.text = name;
@@ -147,11 +125,6 @@ class Playbutton {
     }
 
 }
-var playbtn = new Playbutton("play");
-
-
-
-
 
 
 class Leter {
@@ -168,6 +141,30 @@ class Leter {
         ctx.drawImage(imgarr["img/words.png"], this.Xsprite, this.Ysprite, 100, 110, this.Xposition, this.Yposition, this.width, this.height);
     }
 }
+
+///////////////////////////////////////////////////////////////контент игры
+
+var playbtn = new Playbutton("play");// кнопка старт.
+
+// создаем массив из ключей по которым будем вызывать случайные слова.
+var wordsArr = []; /// масив для хранения ключей
+function makewordsArr(obj) {
+    for (key in obj) {
+        wordsArr.push(key)
+    }
+    console.log(wordsArr);
+}
+
+function init() {
+
+    draw();
+    playbtn.draw();
+    // requestAnimationFrame(init);
+}
+
+
+////кнопка, запускает игру- должна делать запрос.
+
 
 
 
