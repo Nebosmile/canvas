@@ -94,18 +94,19 @@ class Playbutton {
         this.text = name;
         this.x = 7 * Letercell - 25;
         this.y = gameheight / 2 - 15;
-        this.status ="off";
-        var newThis =this;
+        this.status = "off";
+        var newThis = this;
 
         canvas.addEventListener('click', function(e) {
-          e.preventDefault();
-          console.log(newThis.status);
-          console.log(mouse);
-          if(newThis.status == "on" && mouse.x >newThis.x && mouse.x<newThis.x + 50 &&  mouse.y >newThis.y && mouse.y<newThis.y + 30){
-            this.status =false;
-            makewordsArr(words);
-            draw();
-          }
+            e.preventDefault();
+            console.log(newThis.status);
+            console.log(mouse);
+            if (newThis.status == "on" && mouse.x > newThis.x && mouse.x < newThis.x + 50 && mouse.y > newThis.y && mouse.y < newThis.y + 30) {
+                this.status = false;
+                draw();
+                generete();
+
+            }
 
 
         })
@@ -117,7 +118,7 @@ class Playbutton {
         ctx.fillRect(this.x, this.y, 50, 30);
         ctx.fillStyle = "#fff";
         ctx.font = "italic 20px Arial";
-        ctx.fillText(this.text, this.x+5, this.y+20);
+        ctx.fillText(this.text, this.x + 5, this.y + 20);
 
     }
     remove() {
@@ -144,10 +145,18 @@ class Leter {
 
 ///////////////////////////////////////////////////////////////контент игры
 
-var playbtn = new Playbutton("play");// кнопка старт.
+var playbtn = new Playbutton("play"); // кнопка старт.
+
+
+//переменные для хранения состояния
+
+var wordsArr = []; /// масив для хранения ключей
+var keyWord;  // текущее слово-ключ
+var answerArr =[]; // тут храним текущий ответ - массим букв
+var askletters ={}// тут хранятся буквы слова для атвета которые при нажатии переносятся в answerArr
+
 
 // создаем массив из ключей по которым будем вызывать случайные слова.
-var wordsArr = []; /// масив для хранения ключей
 function makewordsArr(obj) {
     for (key in obj) {
         wordsArr.push(key)
@@ -156,16 +165,79 @@ function makewordsArr(obj) {
 }
 
 function init() {
-
-    draw();
+    draw();//арена
     playbtn.draw();
     // requestAnimationFrame(init);
 }
+//////генерируем все необходимые массивы и обьекты для раунда и стартуем.
+function generete() {
+  /// функция должна отправить запрос, получить ответ. из него создаем массив ключей и сохраняем проверочный обьект. в данный момент это words
 
+  makewordsArr(words);// массив ключей.
+///запускаем игру
+  translategame();
+}
+
+function translategame() {
+  /////генерируем случайное слово по ключу
+  var wordforForTranslate =randomInteger(0, wordsArr.length-1);
+  keyWord = words[wordsArr[wordforForTranslate]];
+  console.log(keyWord);
+  /////генерируем массив для строки ответа
+
+
+  //////генерируем масив букв для ответа
+
+
+
+  /////////генерируем таймер
+
+
+
+  ////генерируем персонажа
+
+
+
+  ////генерируем Соперника.
+
+
+/////вызываем функцию отрисовки.
+  workWithWord()
+}
+
+
+
+///функция отрисовки всех частей игровой арены.
+function   workWithWord() {
+  ///отрисовали арену.
+  draw();
+  //////отрисовываем строку- слово для перевода.
+  askWord();
+
+  //// отрисовываем массив букв
+
+
+  /////отрисовываем ответ.
+}
+
+
+//функция отрисовки слова для перевода
+function askWord() {
+
+
+      var lang = 'russian';//должно передаватся из переменной в зависимости от выбора игрока. пока задаем принудительно
+      var string = keyWord[lang];
+
+      var a = wordsone.x;
+      var b = wordsone.y;
+      ctx.fillStyle = "#fff";
+      ctx.font = "italic 30pt Arial";
+      ctx.fillText(string, 200, 200);
+      console.log(string);
+
+}
 
 ////кнопка, запускает игру- должна делать запрос.
-
-
 
 
 
@@ -223,5 +295,12 @@ function draw() {
 function compareRandom(a, b) {
     return Math.random() - 0.5;
 }
+
+//случайное число
+function randomInteger(min, max) {
+    var rand = min + Math.random() * (max + 1 - min);
+    rand = Math.floor(rand);
+    return rand;
+  }
 
 //отслеживаем клик.
