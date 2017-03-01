@@ -10,6 +10,7 @@ canvas.height = gameheight;
 var canvasCoord = canvas.getBoundingClientRect();
 var mouse;
 var Letercell = 1 / 14 * gamewidth;
+var letersize =1/2*Letercell
 var imgsrcArr = ["img/Arena_HA_big.jpg", "img/words.png"];
 var imgarr = {};
 canvas.addEventListener('click', function(e) {
@@ -18,6 +19,12 @@ canvas.addEventListener('click', function(e) {
         x: e.pageX - canvasCoord.left,
         y: e.pageY - canvasCoord.top
     }
+    for( var key in askletters){
+      if((askletters[key].Xposition <mouse.x && askletters[key].Xposition+askletters[key].width>mouse.x) && (askletters[key].Yposition < mouse.y && askletters[key].Yposition+askletters[key].height>mouse.y) ){
+        console.log(askletters[key]);
+      }
+    }
+
 
 })
 
@@ -130,12 +137,13 @@ class Playbutton {
 
 class Leter {
     constructor(name, x, y) {
+        this.name=name;
         this.Xsprite = letters[name][0];
         this.Ysprite = letters[name][1];
         this.Xposition = x;
         this.Yposition = y;
-        this.width = Letercell;
-        this.height = 1.1 * Letercell;
+        this.width = letersize;
+        this.height = 1.1 * letersize;
     }
     draw() {
 
@@ -149,7 +157,6 @@ var playbtn = new Playbutton("play"); // кнопка старт.
 
 
 //переменные для хранения состояния
-
 var wordsArr = []; /// масив для хранения ключей
 var keyWord;  // текущее слово-ключ
 var answerArr =[]; // тут храним текущий ответ - массим букв
@@ -184,9 +191,35 @@ function translategame() {
   keyWord = words[wordsArr[wordforForTranslate]];
   console.log(keyWord);
   /////генерируем массив для строки ответа
+  var answerWord = keyWord.english;
+  answerWord = answerWord.split('');
+
+  console.log(answerWord)
+  answerArr =new Array(answerWord.length);
+
 
 
   //////генерируем масив букв для ответа
+  var randmass;
+  givemerund();
+  ///////перемешиваем массив пока не получим уникальное значение.
+  function givemerund() {
+    randmass = answerWord.sort(compareRandom);
+    console.log(randmass.join(''));
+    var a =keyWord.english;
+    var b =answerWord.join('');
+    if(a==b){
+      givemerund();
+    }
+  }
+
+  for(var i =0; i<answerWord.length;i++){
+    var a = 3/4*letersone.x*i +letersone.x;
+    var b = letersone.y;
+    askletters[i]= new Leter(answerWord[i],a,b);
+
+  }
+
 
 
 
@@ -215,16 +248,15 @@ function   workWithWord() {
   askWord();
 
   //// отрисовываем массив букв
-
+  answerLetter();
 
   /////отрисовываем ответ.
+  answerWord();
 }
 
 
 //функция отрисовки слова для перевода
 function askWord() {
-
-
       var lang = 'russian';//должно передаватся из переменной в зависимости от выбора игрока. пока задаем принудительно
       var string = keyWord[lang];
 
@@ -232,12 +264,29 @@ function askWord() {
       var b = wordsone.y;
       ctx.fillStyle = "#fff";
       ctx.font = "italic 30pt Arial";
-      ctx.fillText(string, 200, 200);
+      ctx.fillText(string, a, b);
       console.log(string);
 
 }
 
-////кнопка, запускает игру- должна делать запрос.
+//функция отрисовки букв ответа
+function answerLetter() {
+  for(var j = 0; j <answerArr.length; j++){
+    askletters[j].draw();
+  }
+
+}
+
+///функция отрисовки слова ответа
+function answerWord() {
+  for(var i = 0; i<answerArr.length;i++){
+    var a = 3/4*answersone.x*i +answersone.x;
+    var b = answersone.y;
+    ctx.fillStyle = "#fff";
+    ctx.fillRect(a, b, letersize, letersize);
+      }
+      return;
+}
 
 
 
