@@ -1,0 +1,18 @@
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+body {
+  background-color: #fff;
+  position: absolute;
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0; }
+
+canvas {
+  padding: 0;
+  margin: 0; }
+
+/*# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoic3R5bGUuY3NzIiwic291cmNlcyI6WyJzdHlsZS5zY3NzIl0sInNvdXJjZXNDb250ZW50IjpbIi8qIFdlbGNvbWUgdG8gQ29tcGFzcy5cclxuICogSW4gdGhpcyBmaWxlIHlvdSBzaG91bGQgd3JpdGUgeW91ciBtYWluIHN0eWxlcy4gKG9yIGNlbnRyYWxpemUgeW91ciBpbXBvcnRzKVxyXG4gKiBJbXBvcnQgdGhpcyBmaWxlIHVzaW5nIHRoZSBmb2xsb3dpbmcgSFRNTCBvciBlcXVpdmFsZW50OlxyXG4gKiA8bGluayBocmVmPVwiL3N0eWxlc2hlZXRzL3NjcmVlbi5jc3NcIiBtZWRpYT1cInNjcmVlbiwgcHJvamVjdGlvblwiIHJlbD1cInN0eWxlc2hlZXRcIiB0eXBlPVwidGV4dC9jc3NcIiAvPiAqL1xyXG5ib2R5e1xyXG4gIGJhY2tncm91bmQtY29sb3I6ICNmZmY7XHJcbiAgcG9zaXRpb246IGFic29sdXRlO1xyXG4gIG92ZXJmbG93OiBoaWRkZW47XHJcbiAgaGVpZ2h0OiAxMDAlO1xyXG4gIHdpZHRoOiAxMDAlO1xyXG4gIG1hcmdpbjogMDtcclxuICBwYWRkaW5nOiAwO1xyXG59XHJcbmNhbnZhc3tcclxuICBwYWRkaW5nOiAwO1xyXG4gIG1hcmdpbjogMDtcclxufVxyXG4iXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7Ozt5R0FHeUc7QUFDekcsQUFBQSxJQUFJLENBQUE7RUFDRixnQkFBZ0IsRUFBRSxJQUFJO0VBQ3RCLFFBQVEsRUFBRSxRQUFRO0VBQ2xCLFFBQVEsRUFBRSxNQUFNO0VBQ2hCLE1BQU0sRUFBRSxJQUFJO0VBQ1osS0FBSyxFQUFFLElBQUk7RUFDWCxNQUFNLEVBQUUsQ0FBQztFQUNULE9BQU8sRUFBRSxDQUFDLEdBQ1g7O0FBQ0QsQUFBQSxNQUFNLENBQUE7RUFDSixPQUFPLEVBQUUsQ0FBQztFQUNWLE1BQU0sRUFBRSxDQUFDLEdBQ1YifQ== */
