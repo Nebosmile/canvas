@@ -13,20 +13,7 @@ var Letercell = 1 / 14 * gamewidth;
 var letersize =1/2*Letercell
 var imgsrcArr = ["img/Arena_HA_big.jpg", "img/words.png"];
 var imgarr = {};
-canvas.addEventListener('click', function(e) {
-    e.preventDefault();
-    mouse = {
-        x: e.pageX - canvasCoord.left,
-        y: e.pageY - canvasCoord.top
-    }
-    for( var key in askletters){
-      if((askletters[key].Xposition <mouse.x && askletters[key].Xposition+askletters[key].width>mouse.x) && (askletters[key].Yposition < mouse.y && askletters[key].Yposition+askletters[key].height>mouse.y) ){
-        console.log(askletters[key]);
-      }
-    }
 
-
-})
 
 var words = {
     "_garden": {
@@ -153,6 +140,47 @@ class Leter {
 
 ///////////////////////////////////////////////////////////////контент игры
 
+
+canvas.addEventListener('click', function(e) {
+    e.preventDefault();
+    mouse = {
+        x: e.pageX - canvasCoord.left,
+        y: e.pageY - canvasCoord.top
+    }
+    for( var key in askletters){
+      if((askletters[key].Xposition <mouse.x && askletters[key].Xposition+askletters[key].width>mouse.x) && (askletters[key].Yposition < mouse.y && askletters[key].Yposition+askletters[key].height>mouse.y) ){
+        console.log(askletters[key]);
+        if(askletters[key].name == keyWord.english[counter]){
+          console.log('true');
+          answerArr[counter]=askletters[key].name;
+          delete askletters[key]
+          console.log(askletters)
+          workWithWord();
+          counter++;
+          if(counter==keyWord.english.length){
+            checkwords();
+          }
+        }else{
+          console.log('false');
+        }
+      }
+    }
+})
+
+function checkwords() {
+  var isAnswer =answerArr.join('');
+  console.log(isAnswer);
+  console.log(keyWord.english);
+  if(keyWord.english==isAnswer){
+    console.log('you give true ansver');
+    counter=0;
+    translategame();
+
+  }else{
+    console.log('it is false answer');
+  }
+}
+
 var playbtn = new Playbutton("play"); // кнопка старт.
 
 
@@ -161,6 +189,7 @@ var wordsArr = []; /// масив для хранения ключей
 var keyWord;  // текущее слово-ключ
 var answerArr =[]; // тут храним текущий ответ - массим букв
 var askletters ={}// тут хранятся буквы слова для атвета которые при нажатии переносятся в answerArr
+var counter =0;  //текущий прогрес ответа. если назвали 3 первые буквы правильно то прогрес = второму индексу.
 
 
 // создаем массив из ключей по которым будем вызывать случайные слова.
@@ -271,19 +300,27 @@ function askWord() {
 
 //функция отрисовки букв ответа
 function answerLetter() {
-  for(var j = 0; j <answerArr.length; j++){
-    askletters[j].draw();
+  for( var key in askletters){
+    askletters[key].draw();
   }
 
 }
 
 ///функция отрисовки слова ответа
 function answerWord() {
+  // answerArr[1]='a';
   for(var i = 0; i<answerArr.length;i++){
     var a = 3/4*answersone.x*i +answersone.x;
     var b = answersone.y;
+
+
     ctx.fillStyle = "#fff";
-    ctx.fillRect(a, b, letersize, letersize);
+    ctx.fillRect(a, b, letersize+5, letersize+5);
+    if(answerArr[i] !=undefined){
+      ctx.font = "italic "+letersize+"pt Arial";
+      ctx.fillStyle = "#073721";
+      ctx.fillText(answerArr[i], a+3, b+letersize);
+    }
       }
       return;
 }
